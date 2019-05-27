@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CamareroViewDlg" widgetVar="CamareroViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCamareroTitle}">
+            <h:form id="CamareroViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{camareroController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCamareroLabel_idcamarero}"/>
+                        <h:outputText value="#{camareroController.selected.idcamarero}" title="#{bundle.ViewCamareroTitle_idcamarero}"/>
+                        <h:outputText value="#{bundle.ViewCamareroLabel_nombre}"/>
+                        <h:outputText value="#{camareroController.selected.nombre}" title="#{bundle.ViewCamareroTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewCamareroLabel_apellido1}"/>
+                        <h:outputText value="#{camareroController.selected.apellido1}" title="#{bundle.ViewCamareroTitle_apellido1}"/>
+                        <h:outputText value="#{bundle.ViewCamareroLabel_apellido2}"/>
+                        <h:outputText value="#{camareroController.selected.apellido2}" title="#{bundle.ViewCamareroTitle_apellido2}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="CamareroViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
