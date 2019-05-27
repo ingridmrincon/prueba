@@ -1,0 +1,97 @@
+CREATE TABLE cliente(
+	idcliente serial primary key NOT NULL,
+        nombre varchar(50) NOT NULL,
+        apellido1 varchar(50) NOT NULL,
+        apellido2 varchar(50) NOT NULL,
+        observaciones varchar(200)
+    ) 
+
+    CREATE TABLE factura(
+	idfactura serial primary key NOT NULL,
+        idcliente serial  NOT NULL,
+        idcamarero serial NOT NULL,
+        idmesa     serial NOT NULL,
+        fechafactura date
+    ) 
+       alter table factura
+       add constraint idcliente
+       foreign key (idcliente)
+       references cliente(idcliente);
+------------
+       alter table factura
+       add constraint idcamarero
+       foreign key (idcamarero)
+       references mesa(idcamarero);
+------------
+       alter table factura
+       add constraint idmesa
+       foreign key (idmesa)
+       references mesa(idmesa);
+-------------------------------------------------------------------------------------------------------------------
+    CREATE TABLE camarero(
+        idcamarero serial primary key NOT NULL,
+	nombre varchar(50) NOT NULL,
+        apellido1 varchar(50) NOT NULL,
+        apellido2 varchar(50) NOT NULL
+       )
+--------------------------------------------------------------------------------------------------------------------
+    )
+    CREATE TABLE mesa(
+        idmesa serial primary key NOT NULL,
+	nummaxcomensales integer NOT NULL,
+        ubicacion varchar(30) NOT NULL
+    )
+--------------------------------------------------------------------------------------------------------------------
+   CREATE TABLE detallefactura(
+        idfactura serial primary key NOT NULL,
+	iddetallefactura serial primary key NOT NULL,
+        idcocinero serial primary key NOT NULL,
+        plato varchar(50) NOT NULL,
+        importe varchar(50) NOT NULL
+    )
+       alter table detallefactura
+       add constraint idcocinero
+       foreign key idcocinero
+       references cocinero(idcocinero);
+--------
+       alter table detallefactura
+       add constraint idfactura
+       foreign key (idfactura)
+       references factura(idfactura);
+
+   CREATE TABLE cocinero(
+        idcocinero serial primary key NOT NULL,
+	nombre varchar(50) NOT NULL,
+        apellido1 varchar(50) NOT NULL,
+        apellido2 varchar(50) NOT NULL
+    )
+-------------------------------------------------------------------------------------------------
+CREATE SEQUENCE camarero_idcamarero_seq
+OWNED BY camarero.idcamarero;
+CREATE SEQUENCE cliente_idcliente_seq
+OWNED BY cliente.idcliente;
+CREATE SEQUENCE detallefactura_iddetallefactura_seq
+OWNED BY detallefactura.iddetallefactura;
+CREATE SEQUENCE factura_idfactura_seq
+OWNED BY factura.idfactura;
+CREATE SEQUENCE mesa_idmesa_seq
+OWNED BY mesa.idmesa;
+CREATE SEQUENCE cocinero_idcocinero_seq
+OWNED BY cocinero.idcocinero;
+
+-----------------------------------------------------------------------------------------------------
+2.Crear una funcionalidad que permita visualizar la siguiente información (No reporteador):
+
+SELECT ROW_NUMBER() OVER (ORDER BY camarero.nombre ASC) 
+AS idcamarero,nombre, apellido1, apellido2, fechafactura,importe, totalfacturado
+from detallefactura, camarero, factura
+where fechafactura >= '2019-05-01'
+and fechafactura < '2019-06-01'
+GROUP BY nombre, apellido1, apellido2, fechafactura,importe, totalfacturado
+
+----------------------------------------------------------------------------------------------------
+
+SELECT ROW_NUMBER() OVER (ORDER BY cliente.nombre ASC)
+AS idcliente,nombre, apellido1, apellido2,totalfacturado
+FROM  detallefactura, cliente
+WHERE totalfacturado >= '100'
